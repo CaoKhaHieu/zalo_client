@@ -1,25 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import { Switch, Route } from 'react-router-dom'
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import OTPPages from './pages/ForgotPassPage';
+import ForgotPassPage from './pages/ForgotPassPage';
+import NewPassPage from './pages/NewPassPage';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Switch>
+      <Route path='/login'>
+        <LoginPage></LoginPage>
+      </Route>
+
+      <Route path='/register'>
+        <RegisterPage></RegisterPage>
+      </Route>
+
+      <Route path='/forgotpass'>
+        <ForgotPassPage></ForgotPassPage>
+      </Route>
+
+      <Route path='/newpass'>
+        <NewPassPage></NewPassPage>
+      </Route>
+    </Switch>
   );
 }
 
