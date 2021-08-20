@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import { useState } from "react";
 import OtpInput from "react-otp-input";
 import { useDispatch, useSelector } from "react-redux";
 import { checkOtpRequest } from "../../redux/actions/UserAction";

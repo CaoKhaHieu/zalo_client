@@ -1,3 +1,4 @@
+import { refeshToken } from "../types/UserType";
 import axiosClient from "./AxiosClient";
 
 interface ListResponse<T> {
@@ -30,3 +31,4 @@ export const register = (user: User) :Promise<ListResponse<User>> => axiosClient
 export const getEmail = (email: Email) :Promise<resultGetEmail> => axiosClient.post('/user/sendmail', email)
 export const checkOtp = (otp: OTP) :Promise<resultGetEmail> => axiosClient.post('/user/checkotp', otp)
 export const updatePassword = (data: Email) :Promise<resultGetEmail> => axiosClient.post('/user/updatepassword', data)
+export const getNewToken = (refeshToken: refeshToken) :Promise<resultGetEmail> => axiosClient.post('/user/getnewtoken', refeshToken)

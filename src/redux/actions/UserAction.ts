@@ -1,5 +1,5 @@
 import { UserConstant } from "../../constants/UserConstant";
-import { Actions, Email, Error, Message, OTP, User } from "../../types/UserType";
+import { Actions, Email, Error, Message, OTP, refeshToken, Tokens, User } from "../../types/UserType";
 
 // -------------- LOGIN
 export const loginUserRequest = (data: User): Actions => {
@@ -44,6 +44,31 @@ export const registerUserFailure = (error: Error): Actions => {
     payload: error,
   };
 };
+
+
+// -------------- LOGOUT
+export const logoutUserRequest = (): Actions => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('refeshToken');
+  return {
+    type: UserConstant.LOGOUT_USER_REQUEST,
+  };
+};
+
+export const logoutUserSuccess = (message: Message): Actions => {
+  return {
+    type: UserConstant.LOGOUT_USER_SUCCESS,
+    payload: message,
+  };
+};
+
+export const logoutUserFailure = (error: Error): Actions => {
+  return {
+    type: UserConstant.LOGOUT_USER_FAILURE,
+    payload: error,
+  };
+};
+
 
 // -------------- CHECK OTP
 export const checkOtpRequest = (data: OTP): Actions => {
@@ -111,6 +136,28 @@ export const updatePasswordFailure = (error: Error): Actions => {
   };
 };
 
+// -------------- GET NEW ACCESS TOKEN
+export const getNewTokenRequest = (refeshToken: refeshToken): Actions => {
+  return {
+    type: UserConstant.GET_NEW_TOKEN_REQUEST,
+    payload: refeshToken,
+  };
+};
+
+export const getNewTokenSuccess = (tokens: Tokens): Actions => {
+  return {
+    type: UserConstant.GET_NEW_TOKEN_SUCCESS,
+    payload: tokens,
+  };
+};
+
+export const getNewTokenFailure = (error: Error): Actions => {
+  return {
+    type: UserConstant.GET_NEW_TOKEN_FAILURE,
+    payload: error,
+  };
+};
+
 // -------------- DELETE USER STATE
 export const clearUserState = (): Actions => {
     return {
@@ -126,3 +173,4 @@ export const saveEmailUser = (data: Email): Actions => {
     payload: data,
   };
 };
+

@@ -12,7 +12,7 @@ interface Password {
 
 const NewPass = () => {
   const dispatch = useDispatch();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const [pass, setPass] = useState<string>("");
   const [repeatPass, setRepeatPass] = useState<string>("");

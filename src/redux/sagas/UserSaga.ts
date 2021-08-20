@@ -2,17 +2,20 @@ import { put, call, takeLatest, takeEvery } from "redux-saga/effects";
 import {
   checkOtp,
   getEmail,
+  getNewToken,
   login,
   register,
   updatePassword,
 } from "../../api/UserApi";
 import { UserConstant } from "../../constants/UserConstant";
-import { Actions, User, Message } from "../../types/UserType";
+import { Actions, User, Message, Tokens } from "../../types/UserType";
 import {
   checkOtpFailure,
   checkOtpSuccess,
   getEmailFailure,
   getEmailSuccess,
+  getNewTokenFailure,
+  getNewTokenSuccess,
   loginUserFailure,
   loginUserSuccess,
   registerUserFailure,
@@ -24,23 +27,25 @@ import {
 function* LoginSaga(action: Actions) {
   try {
     const user: User = yield call(login, action.payload);
-    localStorage.setItem("user_token", JSON.stringify(user));
+    localStorage.setItem("token", JSON.stringify(user.token));
+    localStorage.setItem("refeshToken", JSON.stringify(user.refeshToken));
     yield put(loginUserSuccess(user));
+    document.location.href = "/";
   } catch (error) {
     yield put(loginUserFailure(error.response.data.message));
   }
 }
 
 function* RegisterSaga(action: Actions) {
-  console.log(action);
   try {
     const user: User = yield call(register, action.payload);
-    localStorage.setItem("user_token", JSON.stringify(user));
+    localStorage.setItem("refeshToken", JSON.stringify(user.refeshToken));
     yield put(registerUserSuccess(user));
   } catch (error) {
     yield put(registerUserFailure(error.response.data.message));
   }
 }
+
 
 function* GetEmailSaga(action: Actions){
   try {
@@ -72,12 +77,26 @@ function* UpdatePasswordSaga(action: Actions) {
   }
 }
 
+function* GetNewTokenSaga(action: Actions) {
+  try {
+    const result: Tokens = yield call(getNewToken, action.payload);
+    localStorage.setItem("token", JSON.stringify(result.accessToken));
+    localStorage.setItem("refeshToken", JSON.stringify(result.refeshToken));
+    yield put(getNewTokenSuccess(result));
+  } catch (error) {
+    yield put(getNewTokenFailure(error.response.data.message));
+  }
+}
+
 function* mySaga() {
-  yield takeLatest(UserConstant.LOGIN_USER_REQUEST, LoginSaga);
+  yield takeEvery(UserConstant.LOGIN_USER_REQUEST, LoginSaga);
   yield takeEvery(UserConstant.REGISTER_USER_REQUEST, RegisterSaga);
+  
   yield takeLatest(UserConstant.GET_EMAIL_REQUEST, GetEmailSaga);
   yield takeLatest(UserConstant.CHECK_OTP_REQUEST, CheckOtpSaga);
   yield takeLatest(UserConstant.UPDATE_PASSWORD_REQUEST, UpdatePasswordSaga);
+  yield takeLatest(UserConstant.GET_NEW_TOKEN_REQUEST, GetNewTokenSaga);
+
 }
 
 export default mySaga;

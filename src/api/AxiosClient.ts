@@ -10,8 +10,8 @@ const axiosClient = axios.create({
 // Add a request interceptor
 axiosClient.interceptors.request.use(function (config: AxiosRequestConfig) {
     // Do something before request is sent
-    const token = localStorage.getItem('token')
-    config.headers.Authorization = `Bearer ${token}`
+    let token = localStorage.getItem('token')
+    config.headers.Authorization = token
     return config;
   }, function (error) {
     // Do something with request error

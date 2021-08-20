@@ -19,7 +19,8 @@ export type User = {
   name?: string
   phone: string;
   password: string
-  token?:string
+  token?:string | null
+  refeshToken? : string | null
   otp?: string
 }
 
@@ -36,4 +37,13 @@ export type Actions ={
 export type OTP ={
   email: string
   otp: string
+}
+
+export type Tokens = {
+  accessToken: string,
+  refeshToken: string,
+}
+
+export type refeshToken = {
+  refeshToken: string,
 }

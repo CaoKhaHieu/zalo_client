@@ -65,6 +65,14 @@ export const UserReducer = (state = InitialState, action: UserLoginAction) => {
             }
         }
 
+        //-------------- LOGOUT
+        case UserConstant.LOGOUT_USER_REQUEST: {
+            return {
+                ...state,
+            }
+        }
+
+
         // ------------- GET OTP BY EMAIL
         case UserConstant.GET_EMAIL_REQUEST: {
             return {
@@ -133,6 +141,29 @@ export const UserReducer = (state = InitialState, action: UserLoginAction) => {
             return {
                 ...state,
                 isLoading: false,
+                error: action.payload
+            }
+        }
+
+        //-------------- GET NEW TOKEN
+        case UserConstant.GET_NEW_TOKEN_REQUEST: {
+            return {
+                ...state,
+                isLoading: true
+            }
+        }
+
+        case UserConstant.GET_NEW_TOKEN_SUCCESS: {
+            return{
+                ...state,
+                isLoading: false,
+                tokens: action.payload,
+            }
+        }
+
+        case UserConstant.GET_NEW_TOKEN_FAILURE: {
+            return {
+                ...state,
                 error: action.payload
             }
         }
