@@ -40,6 +40,7 @@ function* RegisterSaga(action: Actions) {
   try {
     const user: User = yield call(register, action.payload);
     localStorage.setItem("refeshToken", JSON.stringify(user.refeshToken));
+    document.location.href = "/login";
     yield put(registerUserSuccess(user));
   } catch (error) {
     yield put(registerUserFailure(error.response.data.message));
