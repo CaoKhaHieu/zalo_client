@@ -10,6 +10,11 @@ import createSagaMiddleware from 'redux-saga'
 import {reducers} from './redux/reducers/index'
 
 import mySaga from './redux/sagas/UserSaga'
+// import { history } from './untils/history'
+
+// import { routerMiddleware } from 'connected-react-router'
+// import { ConnectedRouter } from 'connected-react-router'
+
 
 const sagaMiddleware = createSagaMiddleware()
 const store = createStore(

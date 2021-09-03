@@ -1,10 +1,12 @@
 import { UserConstant } from "../../constants/UserConstant"
+import { User } from "../../types/UserType"
 
 interface UserState {
     isLoading: Boolean
-    userCurrent: {}
+    userCurrent: User
     error: string | null
     emailUserResetPass: any
+    message? : {}
 }
 
 type UserLoginAction = {
@@ -14,7 +16,7 @@ type UserLoginAction = {
 
 const InitialState :UserState = {
     isLoading: false,
-    userCurrent: [],
+    userCurrent: {},
     error: null,
     emailUserResetPass: null
 }
@@ -168,11 +170,108 @@ export const UserReducer = (state = InitialState, action: UserLoginAction) => {
             }
         }
 
+         //-------------- UPDATE AVATAR REQUEST
+        case UserConstant.UPDATE_AVATAR_REQUEST: {
+            return {
+                ...state,
+                isLoading: true
+            }
+        }
+        case UserConstant.UPDATE_AVATAR_SUCCESS: {
+            return {
+                ...state,
+                isLoading: false,
+                userCurrent: action.payload
+            }
+        }
+        case UserConstant.UPDATE_AVATAR_FAILURE: {
+            return {
+                ...state,
+                isLoading: true
+            }
+        }
+
+        //-------------- UPDATE AVATAR REQUEST
+        case UserConstant.GET_USER_BY_ID_REQUEST: {
+            return {
+                ...state,
+                isLoading: true
+            }
+        }
+        case UserConstant.GET_USER_BY_ID_SUCCESS: {
+            return {
+                ...state,
+                isLoading: false,
+                userCurrent: action.payload
+            }
+        }
+        case UserConstant.GET_USER_BY_ID_FAILURE: {
+            return {
+                ...state,
+                isLoading: false,
+                error: action.payload
+            }
+        }
+
+         //-------------- SERCH USER BY PHONE OR EMAIL
+         case UserConstant.SEARCH_USER_REQUEST: {
+            return {
+                ...state,
+                isLoading: true
+            }
+        }
+        case UserConstant.SEARCH_USER_SUCCESS: {
+            return {
+                ...state,
+                isLoading: false,
+                error: null,
+                resultSearch: action.payload
+            }
+        }
+        case UserConstant.SEARCH_USER_FAILURE: {
+            return {
+                ...state,
+                isLoading: false,
+                resultSearch: null,
+                error: action.payload
+            }
+        }
+
+        //-------------- ACCEPT FRIEND
+        case UserConstant.ACCEPT_FRIEND_REQUEST: {
+            return{
+                ...state,
+                isLoading: true
+            }
+        }
+        case UserConstant.ACCEPT_FRIEND_SUCCESS: {
+            return{
+                ...state,
+                isLoading: false,
+                userCurrent: action.payload
+            }
+        }
+        case UserConstant.ACCEPT_FRIEND_FAILURE: {
+            return{
+                ...state,
+                isLoading: false,
+                error: action.payload
+            }
+        }
+
         // ------------- SAVE EMAIL USER
         case UserConstant.SAVE_EMAIL_USER: {
             return {
                 ...state,
                 emailUserResetPass: action.payload
+            }
+        }
+
+        // ------------- SAVE INFO USER
+        case UserConstant.SAVE_INFO_USER: {
+            return {
+                ...state,
+                userCurrent: action.payload
             }
         }
 

@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock, faMobileAlt, faUser } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Register.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUserRequest } from "../../redux/actions/UserAction";
@@ -12,6 +12,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 
 const Register = () => {
+  const history = useHistory()
   const dispatch = useDispatch();
   const schema = yup.object().shape({
     phone: yup.string().trim().matches(/^(?:\d{10}|(84|0[3|5|7|8|9])+([0-9]{8})\b|\w+@\w+\.\w{2,3})$/ , 'Số điện thoại hoặc email không hợp lệ').required(),
@@ -36,8 +37,9 @@ const Register = () => {
 
   const onSubmit = async (data: User) => {
     if (pass === repeatPass) {
-      await dispatch(registerUserRequest(data));
-      reset()
+      await dispatch(registerUserRequest(data, () => {
+        history.push('/login')
+      }));
     } else {
       setErrorMessage('Mật khẩu không khớp')
       setTimeout(() => {

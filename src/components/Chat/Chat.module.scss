@@ -1,5 +1,9 @@
 .chat {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
+  height: 100%;
+  
   .header {
     height: 68px;
     display: flex;

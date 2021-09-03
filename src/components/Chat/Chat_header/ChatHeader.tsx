@@ -21,7 +21,7 @@ const ChatHeader = () => {
             </div>
             <div className={styles.main}>
                 <div className={styles.name}>
-                    Cộng Đồng Front-end Việt Nam
+                    <span>Cộng Đồng Front-end Việt Nam</span>
                 </div>
                 <div className={styles.member}>
                     <span><i className="fal fa-user"></i> 530 thành viên</span>

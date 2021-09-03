@@ -1,29 +1,51 @@
-import React from 'react'
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCloud,
-  faStar,
-  faCog,
-} from "@fortawesome/free-solid-svg-icons";
-import styles from './NavBar-Bottom.module.scss'
+import React from "react";
+import { useState } from "react";
+import styles from "./NavBar-Bottom.module.scss";
+import UpdateProfile from "./UpdateProfile/UpdateProfile";
 
 const NavBar_Bottom = () => {
-    return (
-        <div className={styles.navbar_bottom}>
-        <ul>
-          <li>
-            <FontAwesomeIcon icon={faCloud}></FontAwesomeIcon>
-          </li>
-          <li>
-            <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
-          </li>
-          <li>
-            <FontAwesomeIcon icon={faCog}></FontAwesomeIcon>
-          </li>
-        </ul>
-      </div>
-    )
-}
+  const [showMenu, setShowMenu] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false);
 
-export default NavBar_Bottom
+  const handleClickOpen = (): void => {
+    setOpen(true);
+  };
+
+  const handleClose = (): void => {
+    setOpen(false);
+  };
+
+  return (
+    <div className={styles.navbar_bottom}>
+      <ul>
+        <li>
+          <i className="fal fa-cloud"></i>
+        </li>
+        <li>
+          <i className="fal fa-star"></i>
+        </li>
+        <li onClick={() => setShowMenu(!showMenu)}>
+          <i className="fal fa-cog"></i>
+
+          {
+            showMenu ? (<div className={styles.menu}>
+              <div className={styles.top} onClick={handleClickOpen}>
+                <span><i className="fal fa-user"></i></span>
+                <span>Tài khoản</span>
+              </div>
+              <div className={styles.bottom}>
+                Đăng xuất
+              </div>
+            </div>) : ''
+          }
+
+        </li>
+      </ul>
+      {
+        open === true ? (<UpdateProfile open={open} handleClose={handleClose}></UpdateProfile>) : ''
+      }
+    </div>
+  );
+};
+
+export default NavBar_Bottom;

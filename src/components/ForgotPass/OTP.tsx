@@ -1,6 +1,7 @@
 import { useState } from "react";
 import OtpInput from "react-otp-input";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { checkOtpRequest } from "../../redux/actions/UserAction";
 import { RootState } from "../../redux/reducers";
 import { Email, UserState } from "../../types/UserType";
@@ -8,6 +9,7 @@ import CountDown from "./CountDown";
 import "./OTP.scss";
 
 const OTP = () => {
+  const history = useHistory()
   const dispatch = useDispatch()
   const [time, setTime] = useState(60)
   const [otp, setOtp] = useState("")
@@ -22,7 +24,9 @@ const OTP = () => {
       email: emailUserResetPass.email,
       otp,
     }
-    await dispatch(checkOtpRequest(data))
+    await dispatch(checkOtpRequest(data, () => {
+      history.push('/newpass')
+    }))
   };
 
   return (

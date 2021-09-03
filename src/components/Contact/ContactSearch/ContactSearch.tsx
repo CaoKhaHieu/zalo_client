@@ -7,8 +7,8 @@ import CreateGroup from './CreateGroup/CreateGroup'
 
 
 const ContactSearch = () => {
-    const [open, setOpen] = useState(false);
-    const [openGroup, setOpenGroup] = useState(false)
+    const [open, setOpen] = useState<Boolean>(false);
+    const [openGroup, setOpenGroup] = useState<Boolean>(false)
 
     const handleClickOpenGroup = () => {
         setOpenGroup(true)

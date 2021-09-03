@@ -5,7 +5,7 @@ import {
   faMobileAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Login.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,6 +14,7 @@ import {
 } from "../../redux/actions/UserAction";
 import { RootState } from "../../redux/reducers";
 import { User, UserState } from "../../types/UserType";
+import useLoginController from "./useLoginController";
 
 type FormData = {
   phone: string;
@@ -26,16 +27,19 @@ type OptionType = {
 
 const Login = () => {
   const dispatch = useDispatch();
+  const history = useHistory()
+  const { option, setOption } = useLoginController();
   const {
     register,
     handleSubmit,
   } = useForm<FormData>()
 
-  const [option, setOption] = useState<OptionType>({
-    qr_code: false,
-    phone: true,
-  });
+  // const [option, setOption] = useState<OptionType>({
+  //   qr_code: false,
+  //   phone: true,
+  // });
 
+  // const user: UserState = useSelector((state: RootState) => state.user);
   const user: UserState = useSelector((state: RootState) => state.user);
   const { error } = user;
 
@@ -44,7 +48,9 @@ const Login = () => {
   };
 
   const onSubmit = (data: User) => {
-    dispatch(loginUserRequest(data));
+    dispatch(loginUserRequest(data, () => {
+      history.push('/')
+    }));
   };
 
   return (

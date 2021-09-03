@@ -5,12 +5,14 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { updatePasswordRequest } from "../../redux/actions/UserAction";
+import { useHistory } from "react-router-dom";
 
 interface Password {
   password: string;
 }
 
 const NewPass = () => {
+  const history = useHistory()
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
 
@@ -33,7 +35,9 @@ const NewPass = () => {
           email: JSON.parse(email).email,
           password: data.password,
         };
-        dispatch(updatePasswordRequest(newData));
+        dispatch(updatePasswordRequest(newData, () => {
+          history.push('/login')
+        }));
       }
     } else {
       setErrorMessage("Mật khẩu không khớp");

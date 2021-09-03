@@ -1,11 +1,12 @@
 import { UserConstant } from "../../constants/UserConstant";
-import { Actions, Email, Error, Message, OTP, refeshToken, Tokens, User } from "../../types/UserType";
+import { Actions, Email, Error, Friend, Message, OTP, phone, refeshToken, Tokens, User } from "../../types/UserType";
 
 // -------------- LOGIN
-export const loginUserRequest = (data: User): Actions => {
+export const loginUserRequest = (data: User, callback: any): Actions => {
   return {
     type: UserConstant.LOGIN_USER_REQUEST,
     payload: data,
+    callback
   };
 };
 
@@ -24,10 +25,11 @@ export const loginUserFailure = (error: Error): Actions => {
 };
 
 // -------------- REGISTER
-export const registerUserRequest = (data: User): Actions => {
+export const registerUserRequest = (data: User, callback: any): Actions => {
   return {
     type: UserConstant.REGISTER_USER_REQUEST,
     payload: data,
+    callback: callback,
   };
 };
 
@@ -71,10 +73,11 @@ export const logoutUserFailure = (error: Error): Actions => {
 
 
 // -------------- CHECK OTP
-export const checkOtpRequest = (data: OTP): Actions => {
+export const checkOtpRequest = (data: OTP, callback: any): Actions => {
   return {
     type: UserConstant.CHECK_OTP_REQUEST,
     payload: data,
+    callback
   };
 };
 
@@ -115,10 +118,11 @@ export const getEmailFailure = (error: Error): Actions => {
 };
 
 // -------------- UPDATE PASWORD
-export const updatePasswordRequest = (data: Email): Actions => {
+export const updatePasswordRequest = (data: Email, callback: any): Actions => {
   return {
     type: UserConstant.UPDATE_PASSWORD_REQUEST,
     payload: data,
+    callback
   };
 };
 
@@ -157,6 +161,94 @@ export const getNewTokenFailure = (error: Error): Actions => {
     payload: error,
   };
 };
+
+// -------------- GET USER BY ID
+export const getUserByIdRequest = (id: string) => {
+  return {
+    type: UserConstant.GET_USER_BY_ID_REQUEST,
+    payload: id
+  }
+}
+export const getUserByIdSuccess = (data: User) => {
+  return {
+    type: UserConstant.GET_USER_BY_ID_SUCCESS,
+    payload: data
+  }
+}
+export const getUserByIdFailure = (message: Message) => {
+  return {
+    type: UserConstant.GET_USER_BY_ID_REQUEST,
+    payload: message
+  }
+}
+
+// -------------- UPDATE AVATAR
+export const updateAvatarRequest = (data: any) => {
+  return {
+    type: UserConstant.UPDATE_AVATAR_REQUEST,
+    payload: data,
+  }
+} 
+export const updateAvatarSuccess = (data: User) => {
+  return {
+    type: UserConstant.UPDATE_AVATAR_SUCCESS,
+    payload: data
+  }
+} 
+export const updateAvatarFailure = (message: Message) => {
+  return {
+    type: UserConstant.UPDATE_AVATAR_FAILURE,
+    payload: message
+  }
+} 
+
+// -------------- SEARCH USER BY PHONE OR EMAIL
+export const searchUserRequest = (data: phone) => {
+  return{
+    type: UserConstant.SEARCH_USER_REQUEST,
+    payload: data
+  }
+}
+export const searchUserSuccess = (data: User) => {
+  return{
+    type: UserConstant.SEARCH_USER_SUCCESS,
+    payload: data
+  }
+}
+export const searchUserFailure = (error: Message) => {
+  return{
+    type: UserConstant.SEARCH_USER_FAILURE,
+    payload: error
+  }
+}
+
+// -------------- ACCEPT FRIEND
+export const acceptFriendRequest = (data: Friend) => {
+  return {
+    type: UserConstant.ACCEPT_FRIEND_REQUEST,
+    payload: data
+  }
+}
+export const acceptFriendSuccess = (data: User) => {
+  return {
+    type: UserConstant.ACCEPT_FRIEND_SUCCESS,
+    payload: data
+  }
+}
+export const acceptFriendFailure = (data: Message) => {
+  return {
+    type: UserConstant.ACCEPT_FRIEND_FAILURE,
+    payload: data
+  }
+}
+
+// -------------- SAVE INFO USER TO STATE
+export const saveInfoUser = (user: User) => {
+  return {
+    type: UserConstant.SAVE_INFO_USER,
+    payload: user,
+  }
+}
 
 // -------------- DELETE USER STATE
 export const clearUserState = (): Actions => {
