@@ -237,22 +237,44 @@ export const UserReducer = (state = InitialState, action: UserLoginAction) => {
             }
         }
 
-        //-------------- ACCEPT FRIEND
-        case UserConstant.ACCEPT_FRIEND_REQUEST: {
-            return{
+        //-------------- GET ALL FRIEND
+        case UserConstant.GET_ALL_FRIEND_REQUEST: {
+            return {
                 ...state,
                 isLoading: true
             }
         }
-        case UserConstant.ACCEPT_FRIEND_SUCCESS: {
-            return{
+        case UserConstant.GET_ALL_FRIEND_SUCCESS: {
+            return {
                 ...state,
-                isLoading: false,
-                userCurrent: action.payload
+                loading: false,
+                friends: action.payload
             }
         }
-        case UserConstant.ACCEPT_FRIEND_FAILURE: {
-            return{
+        case UserConstant.GET_ALL_FRIEND_FAILURE: {
+            return {
+                ...state,
+                isLoading: false,
+                error: action.payload
+            }
+        }
+
+        //-------------- GET ALL PEOPLE REQUEST
+        case UserConstant.GET_ALL_PEOPLE_REQUEST_REQUEST: {
+            return {
+                ...state,
+                isLoading: true
+            }
+        }
+        case UserConstant.GET_ALL_PEOPLE_REQUEST_SUCCESS: {
+            return {
+                ...state,
+                loading: false,
+                peopleRequest: action.payload
+            }
+        }
+        case UserConstant.GET_ALL_PEOPLE_REQUEST_FAILURE: {
+            return {
                 ...state,
                 isLoading: false,
                 error: action.payload

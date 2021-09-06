@@ -37,4 +37,8 @@ export const checkOtp = (otp: OTP) :Promise<resultGetEmail> => axiosClient.post(
 export const updatePassword = (data: Email) :Promise<resultGetEmail> => axiosClient.post('/user/updatepassword', data)
 export const getNewToken = (refeshToken: refeshToken) :Promise<resultGetEmail> => axiosClient.post('/user/getnewtoken', refeshToken)
 
-export const acceptFriend = (data: Friend) :Promise<Friend> => axiosClient.post('/user/acceptfriend', data)
+export const getAllPeopleRequestByUser = (id: string) :Promise<Friend> => axiosClient.get(`/user/getAllPeopleRequestByUser/${id}`)
+export const getAllFriendByUser = (id: string) :Promise<Friend> => axiosClient.get(`/user/getAllFriendByUser/${id}`)
+
+
+

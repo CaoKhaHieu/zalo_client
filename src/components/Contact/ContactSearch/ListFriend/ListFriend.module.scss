@@ -3,6 +3,7 @@
   flex-direction: column;
   overflow-y: scroll;
   width: 100%;
+  height: 89vh;
   max-height: 89vh;
   font-family: Segoe UI, SegoeuiPc, San Francisco, Helvetica Neue, Helvetica,
     Lucida Grande, Roboto, Ubuntu, Tahoma, Microsoft Sans Serif, Arial,
@@ -38,10 +39,10 @@
     height: 68px;
     // contain: size style;
 
-    &:hover{
+    &:hover {
       background: #e8eaef;
 
-      .option{
+      .option {
         display: block;
       }
     }
@@ -94,14 +95,35 @@
           color: #72808e;
         }
       }
-    
-    
     }
 
-    .option{
+    .option {
       font-size: 17px;
+      position: relative;
 
-      display: none;
+      .unfriend {
+        position: absolute;
+        left: -90px;
+        padding: 5px 0 6px 0;
+        z-index: 11;
+        width: 100px;
+        text-align: center;
+        border: 1px solid #eee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #fff;
+        box-shadow: 0 0 0 1px #fff;
+        border-radius: 20px;
+
+        &:hover{
+          background: #e8eaef;
+        }
+
+        span {
+          font-size: 13px;
+        }
+      }
     }
   }
 }

@@ -1,7 +1,8 @@
 import { put, call, takeLatest, takeEvery } from "redux-saga/effects";
 import {
-  acceptFriend,
   checkOtp,
+  getAllFriendByUser,
+  getAllPeopleRequestByUser,
   getEmail,
   getNewToken,
   getUserById,
@@ -12,12 +13,14 @@ import {
   updatePassword,
 } from "../../api/UserApi";
 import { UserConstant } from "../../constants/UserConstant";
-import { Actions, User, Message, Tokens, Error } from "../../types/UserType";
+import { Actions, User, Message, Tokens, Error, Friend, listFriend } from "../../types/UserType";
 import {
-  acceptFriendFailure,
-  acceptFriendSuccess,
   checkOtpFailure,
   checkOtpSuccess,
+  getAllFriendFailure,
+  getAllFriendSuccess,
+  getAllPeopleRequestFailure,
+  getAllPeopleRequestSuccess,
   getEmailFailure,
   getEmailSuccess,
   getNewTokenFailure,
@@ -104,6 +107,7 @@ function* GetNewTokenSaga(action: Actions) {
 
 function* GetUserByIdSaga(action: Actions) {
   try {
+    console.log(action.payload)
     const user: User = yield call(getUserById, action.payload);
     yield put(getUserByIdSuccess(user));
   } catch (error) {
@@ -129,12 +133,21 @@ function* SearchUserSaga(action: Actions) {
   }
 }
 
-function* AcceptFriendSaga(action: Actions) {
+function* GetAllFriendSaga(action: Actions) {
   try {
-    const result: User = yield call(acceptFriend, action.payload);
-    yield put(acceptFriendSuccess(result));
+    const result: listFriend = yield call(getAllFriendByUser, action.payload);
+    yield put(getAllFriendSuccess(result));
   } catch (error) {
-    yield put(acceptFriendFailure(error.response.data.message));
+    yield put(getAllFriendFailure(error.response.data.message));
+  }
+}
+
+function* GetAllPeopleRequestSaga(action: Actions) {
+  try {
+    const result: listFriend = yield call(getAllPeopleRequestByUser, action.payload);
+    yield put(getAllPeopleRequestSuccess(result));
+  } catch (error) {
+    yield put(getAllPeopleRequestFailure(error.response.data.message));
   }
 }
 
@@ -150,7 +163,8 @@ function* mySaga() {
   yield takeLatest(UserConstant.GET_NEW_TOKEN_REQUEST, GetNewTokenSaga);
   yield takeLatest(UserConstant.SEARCH_USER_REQUEST, SearchUserSaga);
 
-  yield takeLatest(UserConstant.ACCEPT_FRIEND_REQUEST, AcceptFriendSaga);
+  yield takeLatest(UserConstant.GET_ALL_FRIEND_REQUEST, GetAllFriendSaga);
+  yield takeLatest(UserConstant.GET_ALL_PEOPLE_REQUEST_REQUEST, GetAllPeopleRequestSaga);
 }
 
 export default mySaga;

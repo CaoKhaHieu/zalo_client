@@ -46,12 +46,41 @@ const Container = () => {
     }, []);
 
     useEffect(() => {
+        // ------ JOIN ROOM
         socket.emit('join_room', userCurrent)
-        socket.on("new_request_friend", () => {
-            dispatch(getUserByIdRequest(userCurrent._id))
+
+        // ------ HAVE A NEW REQUEST FRIEND
+        socket.on("new_request_friend", (idUser: string) => {
+            dispatch(getUserByIdRequest(idUser))
         });
-        socket.on("person_delete_request_friend", () => {
-            dispatch(getUserByIdRequest(userCurrent._id))
+
+        // ------ DELETE A NEW REQUEST
+        socket.on("person_delete_request_friend", (idUser: string) => {
+            dispatch(getUserByIdRequest(idUser))
+        });
+
+        // ------ ACCEPT A REQUEST
+        socket.on("accept_request_friend_success", (idUser: string) => {
+            dispatch(getUserByIdRequest(idUser))
+        });
+        socket.on("accept_request_friend", (idUser: string) => {
+            dispatch(getUserByIdRequest(idUser))
+        });
+
+        // ------ DONT ACCEPT A REQUEST
+        socket.on("dont_accept_request_friend_success", (idUser: string) => {
+            dispatch(getUserByIdRequest(idUser))
+        });
+        socket.on("dont_accept_request_friend", (idUser: string) => {
+            dispatch(getUserByIdRequest(idUser))
+        });
+
+        // ------ DONT ACCEPT A REQUEST
+        socket.on("un_friend_success", (idUser: string) => {
+            dispatch(getUserByIdRequest(idUser))
+        });
+        socket.on("un_friend", (idUser: string) => {
+            dispatch(getUserByIdRequest(idUser))
         });
     }, [userCurrent])
 

@@ -6,21 +6,33 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 
 import { useForm } from "react-hook-form";
-import { phone, User } from "../../../../types/UserType";
+import { Friend, phone, User } from "../../../../types/UserType";
 import { useDispatch, useSelector } from "react-redux";
 import {
-    getUserByIdRequest,
     searchUserRequest,
 } from "../../../../redux/actions/UserAction";
 import { RootState } from "../../../../redux/reducers";
 import { useState } from "react";
-import { io } from "socket.io-client";
+
+type statusResult = {
+    isFriend: boolean,
+    isStranger: boolean,
+    requested: boolean,
+    isPeopleRequest: boolean,
+    isMe: boolean,
+}
 
 const AddFriend = ({ open, handleClose }: any) => {
     const dispatch = useDispatch();
     const { register, handleSubmit } = useForm();
 
-    const [addFriend, setAddFriend] = useState<boolean>(false);
+    const [statusResult, setStatusResult] = useState<statusResult>({
+        isFriend: false,
+        isStranger: false,
+        requested: false,
+        isPeopleRequest: false,
+        isMe: false,
+    })
 
     const { resultSearch, error, userCurrent }: any = useSelector<RootState>(
         (state) => state.user
@@ -32,63 +44,75 @@ const AddFriend = ({ open, handleClose }: any) => {
     };
 
     useEffect(() => {
-        socket.on('add_friend_success', () => {
-            setAddFriend(true)
-        })
-        socket.on('delete_request_friend_success', () => {
-            setAddFriend(false)
-        })
-    }, [])
+        if (resultSearch) {
+            const isFriend = userCurrent.friends.find((x: Friend) => x.idUser === resultSearch._id)
+            const requested = userCurrent.myRequest.find((x: Friend) => x.idUser === resultSearch._id)
+            const isPeopleRequest = userCurrent.peopleRequest.find((x: Friend) => x.idUser === resultSearch._id)
+            const isMe = resultSearch._id === userCurrent._id
+
+            if (isFriend) {
+                setStatusResult({
+                    ...statusResult, isFriend: true
+                })
+            }
+            else if (requested) {
+                setStatusResult({
+                    ...statusResult, requested: true
+                })
+            }
+
+            else if (isPeopleRequest) {
+                setStatusResult({
+                    ...statusResult, isPeopleRequest: true
+                })
+            }
+            else if (isMe) {
+                setStatusResult({
+                    ...statusResult, isMe: true
+                })
+            }
+            else {
+                setStatusResult({
+                    ...statusResult, isStranger: true
+                })
+            }
+
+        }
+    }, [userCurrent, resultSearch])
 
     useEffect(() => {
-        if (resultSearch) {
-            const userExists = userCurrent.myRequest.find(
-                (x: any) => x._id === resultSearch._id
-            );
+        socket.on('add_friend_success', () => {
+            setStatusResult({
+                ...statusResult, requested: true
+            })
+        })
 
-            if (userExists) {
-                setAddFriend(true);
-            } else {
-                setAddFriend(false);
-            }
-        }
-    }, [userCurrent, resultSearch]);
+        socket.on('delete_request_friend_success', () => {
+            setStatusResult({
+                ...statusResult, isStranger: true
+            })
+        })
+
+        socket.on("accept_request_friend_success", () => {
+            setStatusResult({
+                ...statusResult, isFriend: true
+            })
+        });
+
+        socket.on("dont_accept_request_friend_success", (idUser: string) => {
+            setStatusResult({
+                ...statusResult, isStranger: true
+            })
+        });
+    }, [])
 
     const handleAddFriend = () => {
-        const userFrom = {
-            _id: userCurrent._id,
-            name: userCurrent.name,
-            avatar:
-                userCurrent.avatar ||
-                "https://res.cloudinary.com/caokhahieu/image/upload/v1630225166/zalo/anonymous_bujoil.jpg",
-        };
-        const userTo = {
-            _id: resultSearch._id,
-            name: resultSearch.name,
-            avatar:
-                resultSearch.avatar ||
-                "https://res.cloudinary.com/caokhahieu/image/upload/v1630225166/zalo/anonymous_bujoil.jpg",
-        };
-        const data = { userFrom, userTo };
+        const data = { userFrom: userCurrent._id, userTo: resultSearch._id };
         socket.emit("add_friend", data);
     };
 
     const handleDeleteRequestFriend = () => {
-        const userFrom = {
-            _id: userCurrent._id,
-            name: userCurrent.name,
-            avatar:
-                userCurrent.avatar ||
-                "https://res.cloudinary.com/caokhahieu/image/upload/v1630225166/zalo/anonymous_bujoil.jpg",
-        };
-        const userTo = {
-            _id: resultSearch._id,
-            name: resultSearch.name,
-            avatar:
-                resultSearch.avatar ||
-                "https://res.cloudinary.com/caokhahieu/image/upload/v1630225166/zalo/anonymous_bujoil.jpg",
-        };
-        const data = { userFrom, userTo };
+        const data = { userFrom: userCurrent._id, userTo: resultSearch._id };
         socket.emit("delete_request_friend", data);
     }
 
@@ -135,11 +159,21 @@ const AddFriend = ({ open, handleClose }: any) => {
                                     <div
                                         className={styles.addfriend}
                                     >
-                                        {addFriend ? (
-                                            <span onClick={() => handleDeleteRequestFriend()}>Hủy lời mời kết bạn</span>
-                                        ) : (
-                                            <span onClick={() => handleAddFriend()}>Kết bạn</span>
-                                        )}
+                                        {
+                                            statusResult.isFriend ? (<span>Bạn bè</span>) : ''
+                                        }
+                                        {
+                                            statusResult.isStranger ? (<span onClick={() => handleAddFriend()}>Kết bạn</span>) : ''
+                                        }
+                                        {
+                                            statusResult.requested ? (<span onClick={() => handleDeleteRequestFriend()}>Hủy lời mời kết bạn</span>) : ''
+                                        }
+                                        {
+                                            statusResult.isPeopleRequest ? (<span>Chấp nhận</span>) : ''
+                                        }
+                                        {
+                                            statusResult.isMe ? '' : ''
+                                        }
                                     </div>
                                 </div>
                             </>

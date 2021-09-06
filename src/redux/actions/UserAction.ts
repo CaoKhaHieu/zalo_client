@@ -1,5 +1,5 @@
 import { UserConstant } from "../../constants/UserConstant";
-import { Actions, Email, Error, Friend, Message, OTP, phone, refeshToken, Tokens, User } from "../../types/UserType";
+import { Actions, Email, Error, Friend, listFriend, Message, OTP, phone, refeshToken, Tokens, User } from "../../types/UserType";
 
 // -------------- LOGIN
 export const loginUserRequest = (data: User, callback: any): Actions => {
@@ -164,6 +164,7 @@ export const getNewTokenFailure = (error: Error): Actions => {
 
 // -------------- GET USER BY ID
 export const getUserByIdRequest = (id: string) => {
+  console.log(id)
   return {
     type: UserConstant.GET_USER_BY_ID_REQUEST,
     payload: id
@@ -222,23 +223,43 @@ export const searchUserFailure = (error: Message) => {
   }
 }
 
-// -------------- ACCEPT FRIEND
-export const acceptFriendRequest = (data: Friend) => {
+// -------------- GET ALL FRIENDS
+export const getAllFriendRequest = (id: string) => {
   return {
-    type: UserConstant.ACCEPT_FRIEND_REQUEST,
+    type: UserConstant.GET_ALL_FRIEND_REQUEST,
+    payload: id
+  }
+}
+export const getAllFriendSuccess = (data: listFriend) => {
+  return {
+    type: UserConstant.GET_ALL_FRIEND_SUCCESS,
     payload: data
   }
 }
-export const acceptFriendSuccess = (data: User) => {
+export const getAllFriendFailure = (error: Message) => {
   return {
-    type: UserConstant.ACCEPT_FRIEND_SUCCESS,
+    type: UserConstant.GET_ALL_FRIEND_FAILURE,
+    payload: error
+  }
+}
+
+// -------------- GET ALL PEOPLE REQUEST
+export const getAllPeopleRequestRequest = (id: string) => {
+  return {
+    type: UserConstant.GET_ALL_PEOPLE_REQUEST_REQUEST,
+    payload: id
+  }
+}
+export const getAllPeopleRequestSuccess = (data: listFriend) => {
+  return {
+    type: UserConstant.GET_ALL_PEOPLE_REQUEST_SUCCESS,
     payload: data
   }
 }
-export const acceptFriendFailure = (data: Message) => {
+export const getAllPeopleRequestFailure = (error: Message) => {
   return {
-    type: UserConstant.ACCEPT_FRIEND_FAILURE,
-    payload: data
+    type: UserConstant.GET_ALL_PEOPLE_REQUEST_FAILURE,
+    payload: error
   }
 }
 

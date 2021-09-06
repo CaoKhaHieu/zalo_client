@@ -61,7 +61,19 @@ export type phone = {
 
 export type Friend = {
   _id: string,
-  name: string,
-  avatar: string,
-  
+  idUser: string,
 }
+
+export type FriendItem = {
+  _id: string,
+  idUser: {
+    _id: string,
+    name: string,
+    avatar: string
+  },
+}
+
+
+export type listFriend = [
+  Friend
+]

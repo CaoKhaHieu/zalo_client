@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { showChat, showFriends } from '../../../redux/actions/OptionLayoutAction';
+import { getUserByIdRequest } from '../../../redux/actions/UserAction';
 import { RootState } from '../../../redux/reducers';
 import styles from "./NavBar-Top.module.scss";
 
