@@ -23,6 +23,7 @@ const Container = () => {
 
     const { userCurrent }: any = useSelector<RootState>((state) => state.user);
     const { showChat, showFriends }: any = useSelector<RootState>(state => state.optionLayout)
+    const { chatWith }: any = useSelector<RootState>(state => state.chat)
     const { socket }: any = useSelector<RootState>((state) => state);
 
     useEffect(() => {
@@ -82,6 +83,12 @@ const Container = () => {
         socket.on("un_friend", (idUser: string) => {
             dispatch(getUserByIdRequest(idUser))
         });
+
+        //------ JOIN CONVERSATION
+        socket.on('join_conversation', (idConversation: string) => {
+            console.log(idConversation)
+        })
+
     }, [userCurrent])
 
     return (

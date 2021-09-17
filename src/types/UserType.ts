@@ -71,6 +71,7 @@ export type FriendItem = {
     name: string,
     avatar: string
   },
+  idConversation?: string,
 }
 
 

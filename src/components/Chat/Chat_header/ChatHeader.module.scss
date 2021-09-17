@@ -13,10 +13,10 @@
     line-height: 50px;
     position: relative;
     .img {
-      position: absolute;
+      
       box-shadow: 0 0 0 1px #fff;
-      width: 26px;
-      height: 26px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
 
       display: flex;
@@ -24,28 +24,32 @@
       align-items: center;
 
       img {
-        width: 26px;
-        height: 26px;
+        // width: 26px;
+        // height: 26px;
+
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
         font-size: 12px;
         border-radius: 50%;
       }
 
-      &:nth-child(1) {
-        top: 0;
-        left: 0;
-      }
-      &:nth-child(2) {
-        top: 0;
-        right: 0;
-      }
-      &:nth-child(3) {
-        bottom: 0;
-        left: 0;
-      }
-      &:nth-child(4) {
-        bottom: 0;
-        right: 0;
-      }
+      // &:nth-child(1) {
+      //   top: 0;
+      //   left: 0;
+      // }
+      // &:nth-child(2) {
+      //   top: 0;
+      //   right: 0;
+      // }
+      // &:nth-child(3) {
+      //   bottom: 0;
+      //   left: 0;
+      // }
+      // &:nth-child(4) {
+      //   bottom: 0;
+      //   right: 0;
+      // }
     }
   }
 

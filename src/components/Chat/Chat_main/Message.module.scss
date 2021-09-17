@@ -1,101 +1,132 @@
-.chat {
-  flex-grow: 1;
-  padding: 1rem;
-  background: #f4f5f7;
+@mixin avatar_main {
+  .avatar {
+    width: 40px;
+    height: 40px;
+    box-shadow: 0 0 0 1px #fff;
+    border-radius: 50%;
 
-  .start_time {
-    position: relative;
-    overflow: hidden;
-    height: 30px;
-    margin: auto 52px;
-
-    &:before{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        content: "";
-        width: 100%;
-        height: 0px;
-        border-bottom: 1px solid #ddd;
+    & .avatarHide{
+      opacity: 0;
     }
 
-    span {
-      background: #b4b3b3;
-      border-radius: 10px;
-      padding: 2px 10px 3px;
-      color: white;
-      font-size: 13px;
-
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 2;
-
-    //   &:after {
-    //     position: absolute;
-    //     top: 50%;
-    //     left: -100%;
-
-    //     content: "";
-    //     background: rgba(0, 0, 0, 0.25);
-    //     width: 100%;
-    //     height: 1px;
-
-    //   }
-    //   &:before {
-    //     position: absolute;
-    //     content: "";
-    //     background: rgba(0, 0, 0, 0.25);
-    //     width: 100%;
-    //     height: 1px;
-
-    //     top: 50%;
-    //     right: -100%;
-    //   }
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
     }
   }
 
-  &_message {
-    display: flex;
-    max-width: calc(100% - 100px);
-    gap: 10px;
-    margin-top: 1rem;
+  .avatar .avatarHide{
+    opacity: 0;
+  }
 
-    .avatar {
-      width: 40px;
-      height: 40px;
-      box-shadow: 0 0 0 1px #fff;
-      border-radius: 50%;
+  .main {
+    background: #fff;
+    border-radius: 10px;
+    padding: 0 0.8rem;
+    min-width: 50px;
 
-      img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-      }
+    .name {
+      margin-top: 10px;
+      color: #72808e;
+      font-size: 13px;
     }
-
-    .main {
-      background: #fff;
-      border-radius: 10px;
-      padding: 0 0.8rem;
-
-      .name {
-        margin-top: 10px;
-        color: #72808e;
+    .text {
+      color: #001a33;
+      word-wrap: break-word;
+      margin-top: 0.5rem;
+    }
+    .more {
+      display: flex;
+      justify-content: space-between;
+      gap: 5px;
+      margin: 0.5rem 0 1rem 0;
+      .time, .status{
         font-size: 13px;
-      }
-      .text {
-        color: #001a33;
-        word-wrap: break-word;
-        margin-top: 0.5rem;
-      }
-      .time {
-        font-size: 13px;
-        margin: 0.5rem 0 1rem 0;
         color: rgba(0, 0, 0, 0.5);
       }
     }
   }
 }
+.chat {
+  flex-grow: 1;
+  background: #f4f5f7;
+
+  .listMessage{
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-height: 77vh;
+    overflow-y: scroll;
+    padding-top: 1rem;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    &::-webkit-scrollbar-track {
+      background: #edeff1;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #d4d5d6;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    .start_time {
+      position: relative;
+      overflow: hidden;
+      height: 30px;
+      margin: auto 52px;
+      margin-bottom: 1rem;
+  
+      &:before{
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          content: "";
+          width: 100%;
+          height: 0px;
+          border-bottom: 1px solid #ddd;
+      }
+  
+      span {
+        background: #b4b3b3;
+        border-radius: 10px;
+        padding: 2px 10px 3px;
+        color: white;
+        font-size: 13px;
+  
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+      }
+    }
+
+    &_item{
+      display: flex;
+      width: 80%;
+      gap: 10px;
+      margin-bottom: 1rem;
+      padding-left: 1rem;
+      @include avatar_main
+    }
+
+    &_item_me{
+      display: flex;
+      flex-direction: row-reverse;
+      width: 80%;
+      float: right;
+      gap: 10px;
+      margin-bottom: 1rem;
+      padding-right: 1rem;
+      @include avatar_main
+    }
+  }
+}
+

@@ -151,7 +151,7 @@ function* GetAllPeopleRequestSaga(action: Actions) {
   }
 }
 
-function* mySaga() {
+function* UserSaga() {
   yield takeEvery(UserConstant.LOGIN_USER_REQUEST, LoginSaga);
   yield takeEvery(UserConstant.REGISTER_USER_REQUEST, RegisterSaga);
   yield takeLatest(UserConstant.GET_USER_BY_ID_REQUEST, GetUserByIdSaga);
@@ -167,4 +167,4 @@ function* mySaga() {
   yield takeLatest(UserConstant.GET_ALL_PEOPLE_REQUEST_REQUEST, GetAllPeopleRequestSaga);
 }
 
-export default mySaga;
+export default UserSaga;

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { getAllMessageByConversationRequest, saveInfoChatWith } from '../../../../redux/actions/ChatAction'
+import { showChat } from '../../../../redux/actions/OptionLayoutAction'
 import { getAllFriendRequest } from '../../../../redux/actions/UserAction'
 import { RootState } from '../../../../redux/reducers'
 import { Friend, FriendItem } from '../../../../types/UserType'
@@ -23,6 +25,12 @@ const ListFriend = () => {
         dispatch(getAllFriendRequest(userCurrent._id))
     }, [userCurrent])
 
+    const handleChat = async (item: FriendItem) => {
+        await dispatch(getAllMessageByConversationRequest(String(item.idConversation)))
+        await dispatch(saveInfoChatWith(item))
+        await dispatch(showChat())
+        socket.emit('join_conversation', item.idConversation)
+    }
 
     const handleShowOption = (itemId: string) => {
         setShowOption({
@@ -31,30 +39,32 @@ const ListFriend = () => {
         })
     }
     const handleUnFriend = (item: FriendItem) => {
-        const data = { userFrom: userCurrent._id, userTo: item.idUser._id };
+        const data = { userFrom: userCurrent._id, userTo: item.idUser._id, idConversation: item.idConversation };
         console.log(data)
         socket.emit('un_friend', data)
     }
+
     return (
         <div className={styles.listfriend}>
             <div className={styles.title}>
                 <span>Bạn bè (10)</span>
             </div>
             {
-                friends ? friends.map((item: FriendItem) => (<div className={styles.listfriend_item}>
+                friends ? friends.map((item: FriendItem) => (
+                    <div className={styles.listfriend_item} key={item._id}>
                     <div className={styles.avatar}>
                         <img src={item.idUser.avatar}></img>
                         <div className={styles.dot}></div>
                     </div>
-                    <div className={styles.main}>
+                        <div className={styles.main} onClick={() => handleChat(item)}>
                         <div className={styles.main_top}>
                             <div className={styles.name}>
                                 {item.idUser.name}
                             </div>
                         </div>
                     </div>
-                    <div className={styles.option} onClick={() => handleShowOption(item._id)}>
-                        <i className="fal fa-ellipsis-h"></i>
+                        <div className={styles.option}>
+                            <i className="fal fa-ellipsis-h" onClick={() => handleShowOption(item._id)}></i>
 
                         {
                             showOption.status === true && showOption.id === item._id ? (<div className={styles.unfriend}>

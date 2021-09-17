@@ -9,7 +9,7 @@ import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import {reducers} from './redux/reducers/index'
 
-import mySaga from './redux/sagas/UserSaga'
+import rootSaga from './redux/sagas';
 // import { history } from './untils/history'
 
 // import { routerMiddleware } from 'connected-react-router'
@@ -24,7 +24,7 @@ const store = createStore(
   )
 )
 
-sagaMiddleware.run(mySaga)
+sagaMiddleware.run(rootSaga)
 
 ReactDOM.render(
   <Provider store={store}>
