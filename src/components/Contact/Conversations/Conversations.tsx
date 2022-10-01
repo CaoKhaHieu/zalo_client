@@ -66,12 +66,12 @@ const Conversations = () => {
                 <div className={styles.main_bottom}>
                     {
                         // CHECK USER NAO GUI TIN NHAN & CHECK SEEN TRUE OR FALSE
-                        conversation.lastMessage.sender === userCurrent._id ? (
+                        conversation.lastMessage?.sender && conversation.lastMessage.sender === userCurrent._id ? (
                             <div className={styles.lastmessage}>
                                 Bạn: {conversation.lastMessage.message}
                             </div>) : (
-                            <div className={conversation.lastMessage.seen ? (`${styles.lastmessage}`) : (`${styles.lastmessage} ${styles.not_seen}`)}>
-                                {conversation.lastMessage.message}
+                            <div className={conversation.lastMessage?.seen && conversation.lastMessage.seen ? (`${styles.lastmessage}`) : (`${styles.lastmessage} ${styles.not_seen}`)}>
+                                {conversation.lastMessage?.message}
                             </div>
                         )
                     }

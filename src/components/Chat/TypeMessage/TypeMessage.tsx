@@ -11,15 +11,13 @@ const TypeMessage = () => {
     const [focus, setFocus] = useState<boolean>(false)
 
     useEffect(() => {
-        if (focus === true && listMessage[listMessage.length - 1].sender !== userCurrent._id) {
-            console.log('focus: true')
+        if (focus === true && listMessage[listMessage.length - 1]?.sender !== userCurrent._id) {
             socket.emit('seen_message', chatWith.idConversation)
         }
     }, [focus])
 
     const handleSubmitForm = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log(message)
         const data = {
             idConversation: chatWith.idConversation,
             sender: userCurrent._id,
