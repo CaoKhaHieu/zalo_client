@@ -1,11 +1,16 @@
 import React from "react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { logoutUserRequest } from "../../../redux/actions/UserAction";
 import styles from "./NavBar-Bottom.module.scss";
 import UpdateProfile from "./UpdateProfile/UpdateProfile";
 
 const NavBar_Bottom = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleClickOpen = (): void => {
     setOpen(true);
@@ -13,6 +18,11 @@ const NavBar_Bottom = () => {
 
   const handleClose = (): void => {
     setOpen(false);
+  };
+
+  const handleLogout = async () => {
+    dispatch(logoutUserRequest());
+    history.push("/login");
   };
 
   return (
@@ -33,7 +43,7 @@ const NavBar_Bottom = () => {
                 <span><i className="fal fa-user"></i></span>
                 <span>Tài khoản</span>
               </div>
-              <div className={styles.bottom}>
+              <div className={styles.bottom} onClick={handleLogout}>
                 Đăng xuất
               </div>
             </div>) : ''
